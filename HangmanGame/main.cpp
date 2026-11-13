@@ -155,6 +155,6 @@ int main()
 		break;
 	}
 	std::cout << "\033[1mCongratulations! You have correctly guessed the word, in " << static_cast<size_t>(life) + word_size << " tries!\n\033[5m" << word << "\033[0m\n";
-	return WON;
 	delete[] is_guessed;
+	return WON;
 }
