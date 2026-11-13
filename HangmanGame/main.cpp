@@ -14,7 +14,7 @@ enum class stickman
 int main()
 {
 	srand(time(0));
-	std::array<std::string, 2> word_list{ "DOG", "CAT" };
+	std::array<std::string, 14> word_list{ "DOG", "CAT", "WORD", "SWORD", "CLOCK", "HANGMAN", "STICK", "INTEGER", "BOOLEAN", "HORSE", "HELLO", "WORLD", "ERROR", "NUGGET"};
 	std::string word{ word_list.at(rand() % word_list.size()) };
 	size_t word_size = { word.size() };
 	bool* is_guessed = new bool[word_size] {false};
@@ -118,11 +118,43 @@ int main()
 			if (hang)
 				life = static_cast<stickman>(static_cast<int>(life) + 1); //++
 		}
-		is_letter.at(static_cast<int>(guess) - 65) = true; //'A' - 65 == alphabet[0] == 'A'
+		is_letter.at(static_cast<int>(guess) - 65) = true; //alphabet['A' - 65] == alphabet[0] == 'A'
 		
-		//Check if you have won: TO DO
-
+		//Check if you have won
+		for (size_t i{ 0 }; i < word_size; ++i)
+		{
+			if (is_guessed[i] == false)
+			{
+				won = false;
+				break;
+			}
+			won = true;
+		}
 	}
+	//Output again
+	switch (life)
+	{
+		using enum stickman;
+	case none:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		    |\n|\n|\n|\n|\n|\n|\n|\n\n";
+		break;
+	case head:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		   _|_\n|		  /   \\\n|		  \\___/\n|\n|\n|\n|\n|\n\n";
+		break;
+	case body:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		   _|_\n|		  /   \\\n|		  \\___/\n|		    |\n|		    |\n|\n|\n|\n\n";
+		break;
+	case left_arm:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		   _|_\n|		  /   \\\n|		  \\___/\n|		   /|\n|		  / |\n|\n|\n|\n\n";
+		break;
+	case right_arm:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		   _|_\n|		  /   \\\n|		  \\___/\n|		   /|\\\n|		  / | \\\n|\n|\n|\n\n";
+		break;
+	case left_leg:
+		std::cout << "_____________________\n|  /                |\n| /                 |\n|/		   _|_\n|		  /   \\\n|		  \\___/\n|		   /|\\\n|		  / | \\\n|		   /\n|		  /\n|\n\n";
+		break;
+	}
+	std::cout << "\033[1mCongratulations! You have correctly guessed the word, in " << static_cast<size_t>(life) + word_size << " tries!\n\033[5m" << word << "\033[0m\n";
 	return WON;
 	delete[] is_guessed;
 }
